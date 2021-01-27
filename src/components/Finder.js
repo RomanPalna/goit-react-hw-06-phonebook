@@ -8,16 +8,8 @@ const Filter = ({ value, onChange }) => (
   </label>
 );
 
-const showContact = (allContacts, filter) => {
-  const normalizeName = filter.toLowerCase();
-
-  return allContacts.filter((contact) =>
-    contact.name.toLowerCase().includes(normalizeName)
-  );
-};
-
-const mapStateToProps = ({ contacts: { items, filter } }) => ({
-  value: showContact(items, filter),
+const mapStateToProps = ({ contacts: { filter } }) => ({
+  value: filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
