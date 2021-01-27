@@ -1,3 +1,6 @@
+import { connect } from "react-redux";
+import action from "../redux/actions";
+
 const Filter = ({ value, onChange }) => (
   <label>
     Find contacts by name
@@ -5,4 +8,25 @@ const Filter = ({ value, onChange }) => (
   </label>
 );
 
-export default Filter;
+const showContact = (allContacts, filter) => {
+  const normalizeName = filter.toLowerCase();
+
+  return allContacts.filter(({ name }) =>
+    name.toLowerCase().includes(normalizeName)
+  );
+};
+
+const mapStateToProps = (state) => {
+  const { items, filter } = state.contacts;
+  const visibleContacts = showContact(items, filter);
+
+  return {
+    value: visibleContacts,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onChange: (e) => dispatch(action.filter(e.target.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

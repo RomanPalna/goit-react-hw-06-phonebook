@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
+import actions from "../redux/actions";
 
 const Contacts = ({ contacts, onDeleteContact }) => (
   <ul>
@@ -14,4 +16,12 @@ const Contacts = ({ contacts, onDeleteContact }) => (
   </ul>
 );
 
-export default Contacts;
+const mapStateToProps = (state) => ({
+  contacts: state.contacts.items,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onDeleteContact: (id) => dispatch(actions.deleteContact(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

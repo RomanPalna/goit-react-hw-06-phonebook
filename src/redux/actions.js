@@ -1,18 +1,22 @@
-export const addContact = (id, name, number) => ({
+import shortid from "shortid";
+
+const addContact = (name, number) => ({
   type: "phonebook/addContact",
   payload: {
-    id,
+    id: shortid.generate(),
     name,
     number,
   },
 });
 
-export const deleteContact = (id) => ({
+const deleteContact = (id) => ({
   type: "phonebook/deleteContact",
   payload: id,
 });
 
-export const filter = (value) => ({
+const filter = (value) => ({
   type: "phonebook/Filter",
   payload: value,
 });
+
+export default { addContact, deleteContact, filter };
