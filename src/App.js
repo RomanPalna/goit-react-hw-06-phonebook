@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Phonebook from "./components/Phonebook";
 import Contacts from "./components/Contacts";

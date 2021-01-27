@@ -33,7 +33,7 @@ function Phonebook({ onSubmit }) {
           placeholder="Add name"
         ></input>
         <input
-          type="phone"
+          type="tel"
           value={number}
           onChange={handleChangeNumber}
           placeholder="Add number"
