@@ -1,4 +1,6 @@
+import { createReducer } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
+import actions from "./actions";
 
 const initialState = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -7,34 +9,25 @@ const initialState = [
   { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
 ];
 
-const items = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case "phonebook/addContact": {
-      const names = new Set(state.map(({ name }) => name.toLowerCase()));
-      if (names.has(payload.name.toLowerCase())) {
-        alert(`${payload.name} is already in contact list!`);
-        return state;
-      }
-      return [payload, ...state];
-    }
+const items = createReducer(initialState, {
+  [actions.addContact]: (state, { payload }) =>
+    nonDuplicateNames(state, payload),
+  [actions.deleteContact]: (state, action) =>
+    state.filter(({ id }) => id !== action.payload),
+});
 
-    case "phonebook/deleteContact":
-      return state.filter(({ id }) => id !== payload);
+const filter = createReducer("", {
+  [actions.filter]: (_, action) => action.payload,
+});
 
-    default:
-      return state;
+function nonDuplicateNames(state, payload) {
+  const names = new Set(state.map(({ name }) => name.toLowerCase()));
+  if (names.has(payload.name.toLowerCase())) {
+    alert(`${payload.name} is already in contact list!`);
+    return state;
   }
-};
-
-const filter = (state = "", { type, payload }) => {
-  switch (type) {
-    case "phonebook/Filter":
-      return payload;
-
-    default:
-      return state;
-  }
-};
+  return [payload, ...state];
+}
 
 export default combineReducers({
   items,
