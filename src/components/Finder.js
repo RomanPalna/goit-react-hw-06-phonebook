@@ -11,19 +11,14 @@ const Filter = ({ value, onChange }) => (
 const showContact = (allContacts, filter) => {
   const normalizeName = filter.toLowerCase();
 
-  return allContacts.filter(({ name }) =>
-    name.toLowerCase().includes(normalizeName)
+  return allContacts.filter((contact) =>
+    contact.name.toLowerCase().includes(normalizeName)
   );
 };
 
-const mapStateToProps = (state) => {
-  const { items, filter } = state.contacts;
-  const visibleContacts = showContact(items, filter);
-
-  return {
-    value: visibleContacts,
-  };
-};
+const mapStateToProps = ({ contacts: { items, filter } }) => ({
+  value: showContact(items, filter),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onChange: (e) => dispatch(action.filter(e.target.value)),
